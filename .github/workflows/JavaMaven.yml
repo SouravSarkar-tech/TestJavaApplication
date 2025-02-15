@@ -27,3 +27,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+    - name: Upload Maven artifact
+      uses: actions/upload-artifact@v3
+      with:
+          name: web_application
+          path: target/*.war
