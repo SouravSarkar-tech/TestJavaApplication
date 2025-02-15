@@ -46,9 +46,11 @@ jobs:
           # Find the most recent JAR file in the target directory
           LATEST_WAR=$(ls -t target/*.war | head -n 1)
           echo "LATEST_WAR=$LATEST_WAR" >> $GITHUB_ENV
+          # Print out the location to ensure it's found
+          echo "WAR file path: $LATEST_WAR"
 
     - name: Upload the .war file to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-          app-name: javaapplicationwebapp
+          app-name: Javawebapplication
           package: ${{ env.LATEST_WAR }}
