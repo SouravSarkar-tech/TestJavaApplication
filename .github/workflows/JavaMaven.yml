@@ -33,3 +33,22 @@ jobs:
       with:
           name: web_application
           path: target/*.war
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+            auth-type: 'SERVICE_PRINCIPAL'
+
+    - name: Get the latest WAR file
+      id: latest_war
+      run: |
+          # Find the most recent JAR file in the target directory
+          LATEST_WAR=$(ls -t target/*.war | head -n 1)
+          echo "LATEST_WAR=$LATEST_WAR" >> $GITHUB_ENV
+
+    - name: Upload the .war file to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+          app-name: javaapplicationwebapp
+          package: ${{ env.LATEST_WAR }}
